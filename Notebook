@@ -1,0 +1,32 @@
+pip install langchain
+pip install openai
+pip install langchain_experimental
+
+import os
+
+os.environ["OPENAI_API_KEY"] = "your api key"
+
+from langchain.prompts import PromptTemplate
+from langchain.chat_models import ChatOpenAI
+from langchain_experimental.smart_llm import SmartLLMChain
+
+hard_question = "If it takes one man three days to dig a hole of one cubic metres, how long will it take 30 men to dig 30 such holes?"
+
+prompt = PromptTemplate.from_template(hard_question)
+llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
+
+chain = SmartLLMChain(llm=llm, prompt=prompt, n_ideas=3, verbose=True)
+
+chain.run({})
+
+#Using Different LLMs for ideation, critique and resolver
+###########################
+# chain = SmartLLMChain(
+#     ideation_llm=ChatOpenAI(temperature=0.9, model_name="gpt-3.5-turbo"),
+#     critique_llm=ChatOpenAI(temperature=0.9, model_name="gpt-3.5-turbo"),
+#     resolver_llm=ChatOpenAI(temperature=0.9, model_name="gpt-3.5-turbo"),
+#     prompt=prompt,
+#     n_ideas=3,
+#     verbose=True,
+# )
+###########################
